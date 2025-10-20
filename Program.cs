@@ -1,57 +1,62 @@
 ﻿using System.Diagnostics;
 
-Stopwatch stopwatch = Stopwatch.StartNew();
-
+int arrLength = 100000;
 // BUBBLE SORT
-int[] bubbleArr = GenerateRandomArray(100000, 1, 1000);
-
-stopwatch.Start();
-bubbleSort(bubbleArr, bubbleArr.Length);
-stopwatch.Stop();
-
-Console.WriteLine("Algorithm: Bubble Sort");
-DisplayRuntime(stopwatch);
-Console.WriteLine();
+TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Bubble Sort", 1);
+TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Bubble Sort", 1);
+TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Bubble Sort", 1);
+TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Bubble Sort", 1);
 
 // INSERTION SORT
-int[] insertionArr = GenerateRandomArray(100000, 1, 1000);
-
-stopwatch.Restart();
-insertionSort(insertionArr);
-stopwatch.Stop();
-
-Console.WriteLine("Algorithm: Insertion Sort");
-DisplayRuntime(stopwatch);
-Console.WriteLine();
+TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Insertion Sort", 2);
+TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Insertion Sort", 2);
+TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Insertion Sort", 2);
+TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Insertion Sort", 2);
 
 // MERGE SORT
-int[] mergeArr = GenerateRandomArray(100000, 1, 1000);
-
-stopwatch.Restart();
-mergeSort(mergeArr, 0, mergeArr.Length - 1);
-stopwatch.Stop();
-
-Console.WriteLine("Algorithm: Merge Sort");
-DisplayRuntime(stopwatch);
-Console.WriteLine();
+TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Merge Sort", 3);
+TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Merge Sort", 3);
+TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Merge Sort", 3);
+TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Merge Sort", 3);
 
 // QUICK SORT
-int[] quickArr = GenerateRandomArray(100000, 1, 1000);
-stopwatch.Restart();
-quickSort(quickArr, 0, quickArr.Length - 1);
-stopwatch.Stop();
-Console.WriteLine("Algorithm: Quick Sort");
-DisplayRuntime(stopwatch);
-
-// ANALYSIS: Merge and Quick Sorts are faster for large datasets because
-// they divide the array into smaller parts and sort them efficiently
-// while Bubble and Insertion Sorts compare every element with many other
-// elements which takes much longer as the array grows.
+TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Quick Sort", 4);
+TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Quick Sort", 4);
+TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Quick Sort", 4);
+TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Quick Sort", 4);
 
 
 // Write individual functions for each algorithm here (Bubble, Insertion, Merge, and Quick sort)
 
 
+static void TestAlgorithmOnArray(int[] arr, string arrayType, string algorithmName, int algorithmNumber)
+{
+    Stopwatch stopwatch = new Stopwatch();
+    stopwatch.Start();
+
+    if (algorithmNumber == 1)
+    {
+        bubbleSort(arr, arr.Length);
+    }
+    else if (algorithmNumber == 2)
+    {
+        insertionSort(arr);
+    }
+    else if (algorithmNumber == 3)
+    {
+        mergeSort(arr, 0, arr.Length - 1);
+    }
+    else if (algorithmNumber == 4)
+    {
+        quickSort(arr, 0, arr.Length - 1);
+    }
+
+    stopwatch.Stop();
+
+    Console.WriteLine($"{algorithmName} on {arrayType} Array:");
+    DisplayRuntime(stopwatch);
+    Console.WriteLine();
+}
 
 static void insertionSort(int[] arr)
     {
@@ -179,15 +184,18 @@ static int partition(int[] arr, int low, int high)
     // the right position of pivot found so far
     int i = low - 1;
 
+    
     // traverse arr[low..high] and move all smaller
     // elements to the left side. Elements from low to 
     // i are smaller after every iteration
     for (int j = low; j <= high - 1; j++)
     {
+
         if (arr[j] < pivot)
         {
             i++;
             swap(arr, i, j);
+            
         }
     }
 
@@ -208,9 +216,10 @@ static void swap(int[] arr, int i, int j)
 // The QuickSort function implementation
 static void quickSort(int[] arr, int low, int high)
 {
-    if (low < high)
+    if (low >= high)
     {
-
+        return;
+    }
         // pi is the partition return index of pivot
         int pi = partition(arr, low, high);
 
@@ -218,7 +227,7 @@ static void quickSort(int[] arr, int low, int high)
         // and greater or equals elements
         quickSort(arr, low, pi - 1);
         quickSort(arr, pi + 1, high);
-    }
+    
 }
 
 
@@ -236,6 +245,55 @@ static int[] GenerateRandomArray(int length, int minValue, int maxValue)
 
     return array;
 }
+
+static int[] GenerateSortedArray(int length)
+{
+    int[] arr = new int[length];
+    for (int i = 0; i < length; i++)
+    {
+        arr[i] = i + 1;
+    }
+    return arr;
+}
+
+static int[] GenerateReverseSortedArray(int length)
+{
+    int[] arr = new int[length];
+    for (int i = 0; i < length; i++)
+    {
+        arr[i] = length - i;
+    }
+    return arr;
+}
+
+static int[] GeneratePartiallySortedArray(int length)
+{
+    int[] arr = new int[length];
+    Random rand = new Random();
+
+    int firstThirdEnd = length / 3;
+    int secondThirdEnd = 2 * (length / 3);
+
+    for (int i = 0; i < firstThirdEnd; i++)
+    {
+        arr[i] = i + 1;
+    }
+
+    int descendingValue = firstThirdEnd; 
+    for (int i = firstThirdEnd; i < secondThirdEnd; i++)
+    {
+        arr[i] = descendingValue;
+        descendingValue--; 
+    }
+
+    for (int i = secondThirdEnd; i < length; i++)
+    {
+        arr[i] = rand.Next(1, length + 1);
+    }
+
+    return arr;
+}
+
 
 static void DisplayRuntime(Stopwatch stopwatch)
 {
