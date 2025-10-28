@@ -1,30 +1,42 @@
 ﻿using System.Diagnostics;
 
-int arrLength = 100000;
+int arrLength = 500000; // changed to 500,000 for 3 new arrays
 // BUBBLE SORT
-TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Bubble Sort", 1);
-TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Bubble Sort", 1);
-TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Bubble Sort", 1);
-TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Bubble Sort", 1);
+//TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Bubble Sort", 1);
+//TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Bubble Sort", 1);
+//TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Bubble Sort", 1);
+//TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Bubble Sort", 1);
+TestAlgorithmOnArray(GenerateUniqueArray(arrLength), "Unique", "Bubble Sort", 1);
+TestAlgorithmOnArray(GenerateHalfRepeatingValues(arrLength), "Half Repeating Values", "Bubble Sort", 1);
+//TestAlgorithmOnArray(GenerateRepeatedNumbers(arrLength), "Highly Repeated", "Bubble Sort", 1);  took too long so i commented it out
 
 // INSERTION SORT
-TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Insertion Sort", 2);
-TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Insertion Sort", 2);
-TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Insertion Sort", 2);
-TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Insertion Sort", 2);
+//TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Insertion Sort", 2);
+//TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Insertion Sort", 2);
+//TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Insertion Sort", 2);
+//TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Insertion Sort", 2);
+TestAlgorithmOnArray(GenerateUniqueArray(arrLength), "Unique", "Insertion Sort", 2);
+TestAlgorithmOnArray(GenerateHalfRepeatingValues(arrLength), "Half Repeating Values", "Insertion Sort", 2);
+//TestAlgorithmOnArray(GenerateRepeatedNumbers(arrLength), "Highly Repeated", "Insertion Sort", 2);   took way to long to run so i commented it out
+
 
 // MERGE SORT
-TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Merge Sort", 3);
-TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Merge Sort", 3);
-TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Merge Sort", 3);
-TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Merge Sort", 3);
+//TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Merge Sort", 3);
+//TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Merge Sort", 3);
+//TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Merge Sort", 3);
+//TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Merge Sort", 3);
+TestAlgorithmOnArray(GenerateUniqueArray(arrLength), "Unique", "Merge Sort", 3);
+TestAlgorithmOnArray(GenerateHalfRepeatingValues(arrLength), "Half Repeating Values", "Merge Sort", 3);
+TestAlgorithmOnArray(GenerateRepeatedNumbers(arrLength), "Highly Repeated", "Merge Sort", 3);
 
 // QUICK SORT
-TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Quick Sort", 4);
-TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Quick Sort", 4);
-TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Quick Sort", 4);
-TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Quick Sort", 4);
-
+//TestAlgorithmOnArray(GenerateRandomArray(arrLength, 1, 1000), "Random", "Quick Sort", 4);
+//TestAlgorithmOnArray(GenerateSortedArray(arrLength), "Sorted", "Quick Sort", 4);
+//TestAlgorithmOnArray(GenerateReverseSortedArray(arrLength), "Reverse Sorted", "Quick Sort", 4);
+//TestAlgorithmOnArray(GeneratePartiallySortedArray(arrLength), "Partial", "Quick Sort", 4);
+TestAlgorithmOnArray(GenerateUniqueArray(arrLength), "Unique", "Quick Sort", 4);
+TestAlgorithmOnArray(GenerateHalfRepeatingValues(arrLength), "Half Repeating Values", "Quick Sort", 4);
+TestAlgorithmOnArray(GenerateRepeatedNumbers(arrLength), "Highly Repeated", "Quick Sort", 4);
 
 // Write individual functions for each algorithm here (Bubble, Insertion, Merge, and Quick sort)
 
@@ -57,6 +69,52 @@ static void TestAlgorithmOnArray(int[] arr, string arrayType, string algorithmNa
     DisplayRuntime(stopwatch);
     Console.WriteLine();
 }
+
+// New Functions For Part 3:
+
+static int[] GenerateUniqueArray(int size)
+{
+    int[] arr = new int[size];
+
+    for (int i = 0; i < arr.Length; i++)
+    {
+        arr[i] = i + 1; // makes all values unique
+    }
+
+    return arr;
+}
+
+static int[] GenerateHalfRepeatingValues(int size)
+{
+    int[] arr = new int[size];
+
+    for (int i = 0; i < size / 2; i++)
+    {
+        arr[i] = 1; // all 1's in the first half, aka the repeating number
+    }
+
+    for (int i = size / 2; i < size; i++)
+    {
+        arr[i] = i - size / 2 + 2; // starts at 250,000 - 250,000 + 2 and then will increase by 1 every time
+    }
+
+    return arr;
+}
+
+static int[] GenerateRepeatedNumbers(int size)
+{
+    int[] arr = new int[size];
+    Random rand = new Random();
+
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = rand.Next(1, 11); 
+    }
+
+    return arr;
+}
+
+
 
 static void insertionSort(int[] arr)
     {
@@ -178,31 +236,38 @@ static int partition(int[] arr, int low, int high)
 {
 
     // choose the pivot
-    int pivot = arr[high];
+    int pivot = arr[(low + high) / 2];
 
     // index of smaller element and indicates 
     // the right position of pivot found so far
-    int i = low - 1;
+    int i = low;
+    int j = high;
 
-    
+
     // traverse arr[low..high] and move all smaller
     // elements to the left side. Elements from low to 
     // i are smaller after every iteration
-    for (int j = low; j <= high - 1; j++)
+    while (i <= j)
     {
-
-        if (arr[j] < pivot)
+        while (arr[i] < pivot)
         {
             i++;
+        }
+
+        while (arr[j] > pivot)
+        {
+            j--;
+        }
+
+        if (i <= j)
+        {
             swap(arr, i, j);
-            
+            i++;
+            j--;
         }
     }
 
-    // move pivot after smaller elements and
-    // return its position
-    swap(arr, i + 1, high);
-    return i + 1;
+    return i;
 }
 
 // swap function
@@ -216,7 +281,7 @@ static void swap(int[] arr, int i, int j)
 // The QuickSort function implementation
 static void quickSort(int[] arr, int low, int high)
 {
-    if (low >= high)
+    if (low < high)
     {
         return;
     }
@@ -226,7 +291,7 @@ static void quickSort(int[] arr, int low, int high)
         // recursion calls for smaller elements
         // and greater or equals elements
         quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+        quickSort(arr, pi, high);
     
 }
 
